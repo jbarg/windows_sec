@@ -4,3 +4,6 @@
 [submodule "Tater"]
 	path = Tater
 	url = https://github.com/Kevin-Robertson/Tater
+[submodule "mimikatz/PowerSploit"]
+	path = mimikatz/PowerSploit
+	url = https://github.com/PowerShellMafia/PowerSploit

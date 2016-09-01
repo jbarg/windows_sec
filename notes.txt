@@ -1,0 +1,3 @@
+# runas with PW
+PSExec \\HOSTNAME -u myID -p myPWD
+
