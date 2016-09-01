@@ -1,0 +1,6 @@
+[submodule "UACME"]
+	path = UACME
+	url = https://github.com/hfiref0x/UACME
+[submodule "Tater"]
+	path = Tater
+	url = https://github.com/Kevin-Robertson/Tater
